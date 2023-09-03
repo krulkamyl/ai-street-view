@@ -2,18 +2,21 @@
 
 namespace App\Services;
 
+use Exception;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use Image;
 
 class ImgAIService
 {
-
-    public function __construct( private string $accessToken)
+    public function __construct(private readonly string $accessToken)
     {
     }
 
-    public function makeImage($prompt, $negative_prompt, $image)
+    /**
+     * @throws Exception
+     */
+    public function makeImage($prompt, $negative_prompt, $image): string
     {
         $url = 'https://api.getimg.ai/v1/stable-diffusion/image-to-image';
 
@@ -41,8 +44,10 @@ class ImgAIService
         if ($response->status() == 200) {
             $filename = Str::random(30).'.jpg';
             Image::make($response['image'])->save(public_path('output_ai').'/'.$filename);
-
             return $filename;
+        }
+        else {
+            throw new Exception($response->body());
         }
     }
 }

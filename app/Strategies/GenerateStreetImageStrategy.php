@@ -22,6 +22,9 @@ class GenerateStreetImageStrategy
         $this->imgAIService = new ImgAIService(config('services.getimg.api_key'));
     }
 
+    /**
+     * @throws \Exception
+     */
     public static function makeImage(Request $request): string|null
     {
         $self = new self();
@@ -38,13 +41,17 @@ class GenerateStreetImageStrategy
             $request->input('radius'),
         );
 
+        if ($request->has('test')) {
+            return "uploads/".$image;
+        }
+
         if ($image) {
             $airesponse = $self->imgAIService->makeImage(
                 $prompt,
                 "canon 930d, realistic, photography",
                 public_path("uploads/{$image}")
             );
-            return $airesponse;
+            return "output_ai/".$airesponse;
         }
         return null;
     }

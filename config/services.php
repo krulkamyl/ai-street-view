@@ -38,8 +38,8 @@ return [
     'getimg' => [
         'api_key' => env('GETIMG_API_KEY', ''),
         'model' => env('GETIMG_MODEL', 'stable-diffusion-v1-5'),
-        'strength' => env('GETIMG__STRENGTH', 0.5),
-        'steps' => env('GETIMG__STEPS', 50),
+        'strength' => env('GETIMG_STRENGTH', 0.5),
+        'steps' => env('GETIMG_STEPS', 50),
         'guidance' => env('GETIMG_GUIDANCE', 2),
         'seed' => env('GETIMG_SEED', 1),
         'scheduler' => env('GETIMG_SCHEDULER', 'dpmsolver++'),
